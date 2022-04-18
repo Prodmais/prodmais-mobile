@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">ProdMais App</string>
+    <string name="slogan">Rumo a Produtividade Saudável!</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="t_tulo">Título...</string>
+    <string name="descri_o">Descrição...</string>
+</resources>
