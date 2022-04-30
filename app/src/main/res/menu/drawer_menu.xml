@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <group>
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/ic_baseline_home_24"
+            android:title="@string/home" />
+        <item
+            android:id="@+id/lembretes"
+            android:icon="@drawable/ic_baseline_lembretes_24"
+            android:title="@string/lembretes" />
+        <item
+            android:id="@+id/conta"
+            android:icon="@drawable/ic_baseline_conta_24"
+            android:title="@string/conta" />
+        <item
+            android:id="@+id/siganos"
+            android:icon="@drawable/ic_baseline_siganos_alt_24"
+            android:title="@string/siga_nos" />
+    </group>
+
+</menu>

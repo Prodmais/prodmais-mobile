@@ -1,7 +1,9 @@
 package com.jamessaboia.prodmaisapp.ui.Fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.*
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import android.widget.Toast
 import androidx.fragment.app.viewModels
@@ -90,18 +92,22 @@ class EditNotesFragment : Fragment() {
         val title = binding.edtTitle.text.toString()
         val notes = binding.edtNotes.text.toString()
 
-        val data = Notes(
-            oldNotes.data.id,
-            title = title,
-            notes = notes
-        ) //adicionar " priority " dentro do paramentro se quiseres por de volta esta feature
 
-        viewModel.updateNotes(data)
+        if (title.isEmpty() || title.isBlank()){
+            Toast.makeText(requireContext(), "Adicione um título a tarefa!", Toast.LENGTH_SHORT).show()
+        } else {
+            val data = Notes(
+                oldNotes.data.id,
+                title = title,
+                notes = notes
+            ) //adicionar " priority " dentro do paramentro se quiseres por de volta esta feature
 
-        Toast.makeText(requireContext(), "Tarefa Editada com Sucesso!", Toast.LENGTH_SHORT).show()
+            viewModel.updateNotes(data)
 
-        Navigation.findNavController(it!!).navigate(R.id.action_editNotesFragment_to_homeFragment)
+            Toast.makeText(requireContext(), "Tarefa Editada com Sucesso!", Toast.LENGTH_SHORT).show()
 
+            Navigation.findNavController(it!!).navigate(R.id.action_editNotesFragment_to_homeFragment)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -114,6 +120,23 @@ class EditNotesFragment : Fragment() {
             val bottonSheet: BottomSheetDialog =
                 BottomSheetDialog(requireContext(), R.style.BottomSheetStyle)
             bottonSheet.setContentView(R.layout.dialog_delete)
+
+            val textViewYes = bottonSheet.findViewById<TextView>(R.id.dialog_yes)
+            val textViewNo = bottonSheet.findViewById<TextView>(R.id.dialog_no)
+
+            textViewYes?.setOnClickListener {
+                viewModel.deleteNotes(oldNotes.data.id!!)
+                bottonSheet.dismiss()
+
+                Toast.makeText(requireContext(), "Tarefa Excluída com Sucesso!", Toast.LENGTH_SHORT).show()
+                Navigation.findNavController(it!!).navigate(R.id.action_editNotesFragment_to_homeFragment)
+
+
+            }
+
+            textViewNo?.setOnClickListener {
+                bottonSheet.dismiss()
+            }
 
             bottonSheet.show()
         }
