@@ -78,7 +78,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="26dp"
-        android:backgroundTint="@color/colorPrimary"
+        android:backgroundTint="@color/colorPrimaryDark"
         android:src="@drawable/ic_baseline_done_24"
         app:elevation="0dp"
         app:maxImageSize="40dp" />

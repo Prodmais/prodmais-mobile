@@ -61,16 +61,22 @@ class CreateNotesFragment : Fragment() {
         val title = binding.edtTitle.text.toString()
         val notes = binding.edtNotes.text.toString()
 
-        val data = Notes(
-            null,
-            title = title,
-            notes = notes
-        ) //adicionar " priority " dentro do paramentro se quiseres por de volta esta feature
-        viewModel.addNotes(data)
+        if (title.isEmpty() || title.isBlank()){
+            Toast.makeText(requireContext(), "Adicione um título a tarefa!", Toast.LENGTH_SHORT).show()
+        } else {
+            val data = Notes(
+                null,
+                title = title,
+                notes = notes
+            ) //adicionar " priority " dentro do paramentro se quiseres por de volta esta feature
+            viewModel.addNotes(data)
 
-        Toast.makeText(requireContext(), "Tarefa Criada com Sucesso!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), "Tarefa Criada com Sucesso!", Toast.LENGTH_SHORT).show()
 
-        Navigation.findNavController(it!!).navigate(R.id.action_createNotesFragment_to_homeFragment)
+            Navigation.findNavController(it!!).navigate(R.id.action_createNotesFragment_to_homeFragment)
+        }
     }
+
+
 
 }
