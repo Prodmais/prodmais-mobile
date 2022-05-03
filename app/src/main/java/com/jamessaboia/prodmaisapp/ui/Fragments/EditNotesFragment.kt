@@ -1,28 +1,34 @@
 package com.jamessaboia.prodmaisapp.ui.Fragments
 
+import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import android.widget.Toast
+import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
+import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
-import com.google.android.material.bottomsheet.BottomSheetBehavior
+import androidx.navigation.ui.NavigationUI
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.jamessaboia.prodmaisapp.Model.Notes
 import com.jamessaboia.prodmaisapp.R
 import com.jamessaboia.prodmaisapp.ViewModel.NotesViewModel
 import com.jamessaboia.prodmaisapp.databinding.FragmentEditNotesBinding
 
-class EditNotesFragment : Fragment() {
+class EditNotesFragment : Fragment(), FragmentManager.OnBackStackChangedListener {
 
     val oldNotes by navArgs<EditNotesFragmentArgs>()
     lateinit var binding: FragmentEditNotesBinding
 
     //  var priority: String = "1"
     val viewModel: NotesViewModel by viewModels()
+    lateinit var navController: NavController
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,7 +41,6 @@ class EditNotesFragment : Fragment() {
 
         binding.edtTitle.setText(oldNotes.data.title)
         binding.edtNotes.setText(oldNotes.data.notes)
-
 
 //        when (oldNotes.data.priority) {
 //            "1" -> {
@@ -87,6 +92,12 @@ class EditNotesFragment : Fragment() {
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        navController = Navigation.findNavController(view)
+    }
+
     private fun updateNotes(it: View?) {
 
         val title = binding.edtTitle.text.toString()
@@ -124,23 +135,26 @@ class EditNotesFragment : Fragment() {
             val textViewYes = bottonSheet.findViewById<TextView>(R.id.dialog_yes)
             val textViewNo = bottonSheet.findViewById<TextView>(R.id.dialog_no)
 
+            bottonSheet.show()
+
             textViewYes?.setOnClickListener {
                 viewModel.deleteNotes(oldNotes.data.id!!)
-                bottonSheet.dismiss()
 
                 Toast.makeText(requireContext(), "Tarefa Excluída com Sucesso!", Toast.LENGTH_SHORT).show()
-                Navigation.findNavController(it!!).navigate(R.id.action_editNotesFragment_to_homeFragment)
-
-
+                navController.navigate(R.id.action_editNotesFragment_to_homeFragment)
+                bottonSheet.dismiss()
             }
 
             textViewNo?.setOnClickListener {
                 bottonSheet.dismiss()
             }
-
-            bottonSheet.show()
         }
-        return super.onOptionsItemSelected(item)
+        return NavigationUI.onNavDestinationSelected(item!!,
+            requireView().findNavController()) || super.onOptionsItemSelected(item)
+    }
+
+    override fun onBackStackChanged() {
+        navController.navigate(R.id.action_editNotesFragment_to_homeFragment)
     }
 
 }
