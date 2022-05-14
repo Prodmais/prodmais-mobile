@@ -5,47 +5,41 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.core.util.PatternsCompat
-import com.jamessaboia.prodmaisapp.databinding.ActivityRegisterBinding
-import java.util.regex.Pattern
+import com.jamessaboia.prodmaisapp.databinding.ActivityLoginBinding
 
-class RegisterActivity : AppCompatActivity() {
 
-    lateinit var binding: ActivityRegisterBinding
+class LoginActivity : AppCompatActivity() {
+
+    lateinit var binding: ActivityLoginBinding
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityRegisterBinding.inflate(layoutInflater)
+        binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         supportActionBar?.hide()
 
-        binding.btRegister.setOnClickListener {
+        binding.btLogin.setOnClickListener {
             validate()
         }
 
+        binding.tvTelaCadastro.setOnClickListener {
+            val intent = Intent(this, RegisterActivity::class.java)
+            this.startActivity(intent)
+        }
 
     }
 
     private fun validate() {
-        val result = arrayOf(validateName(), validateEmail(), validatePassword())
+        val result = arrayOf(validateEmail(), validatePassword())
 
         if (false in result) {
             return
         }
-        Toast.makeText(this, "Cadastro realizado com Sucesso!", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, "Bem-vindo!", Toast.LENGTH_SHORT).show()
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
-    }
-
-    private fun validateName(): Boolean {
-        val nome = binding.name.editText?.text.toString()
-        return if (nome.isEmpty()) {
-            binding.name.error = "Campo obrigatório"
-            false
-        } else {
-            binding.name.error = null
-            true
-        }
     }
 
     private fun validateEmail(): Boolean {
@@ -74,10 +68,4 @@ class RegisterActivity : AppCompatActivity() {
             true
         }
     }
-//    private fun validateTerms(): Boolean {
-//        val terms = binding.cbTerms
-//
-//    }
-
-
-    }
+}
