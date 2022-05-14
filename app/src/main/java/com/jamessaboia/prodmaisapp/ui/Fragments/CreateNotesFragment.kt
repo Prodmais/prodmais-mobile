@@ -8,16 +8,19 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
+import com.jamessaboia.prodmaisapp.Model.Login
 import com.jamessaboia.prodmaisapp.Model.Notes
+import com.jamessaboia.prodmaisapp.Model.TaskPost
 import com.jamessaboia.prodmaisapp.R
 import com.jamessaboia.prodmaisapp.ViewModel.NotesViewModel
+import com.jamessaboia.prodmaisapp.ViewModel.TaskViewModel
 import com.jamessaboia.prodmaisapp.databinding.FragmentCreateNotesBinding
 
 class CreateNotesFragment : Fragment() {
 
     lateinit var binding: FragmentCreateNotesBinding
 //  var priority: String = "1"
-    val viewModel: NotesViewModel by viewModels()
+    val viewModel: TaskViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -64,12 +67,12 @@ class CreateNotesFragment : Fragment() {
         if (title.isEmpty() || title.isBlank()){
             Toast.makeText(requireContext(), "Adicione um título a tarefa!", Toast.LENGTH_SHORT).show()
         } else {
-            val data = Notes(
-                null,
-                title = title,
-                notes = notes
+            val data = TaskPost(
+                title,
+                notes,
+                1
             ) //adicionar " priority " dentro do paramentro se quiseres por de volta esta feature
-            viewModel.addNotes(data)
+            Login.token?.let { it1 -> viewModel.postTask(it1, data) }
 
             Toast.makeText(requireContext(), "Tarefa Criada com Sucesso!", Toast.LENGTH_SHORT).show()
 
