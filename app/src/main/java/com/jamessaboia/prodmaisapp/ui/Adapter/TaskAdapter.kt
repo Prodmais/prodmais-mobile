@@ -6,12 +6,13 @@ import android.view.ViewGroup
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.jamessaboia.prodmaisapp.Model.Notes
+import com.jamessaboia.prodmaisapp.Model.Task
 import com.jamessaboia.prodmaisapp.R
 import com.jamessaboia.prodmaisapp.databinding.ItemNotesBinding
 import com.jamessaboia.prodmaisapp.ui.Fragments.HomeFragmentDirections
 
-class NotesAdapter(val requireContext: Context, val notesList: List<Notes>) :
-    RecyclerView.Adapter<NotesAdapter.notesViewHolder>() {
+class TaskAdapter(val requireContext: Context, val notesList: List<Task>) :
+    RecyclerView.Adapter<TaskAdapter.notesViewHolder>() {
 
 
     class notesViewHolder(val binding: ItemNotesBinding) : RecyclerView.ViewHolder(binding.root)
@@ -28,8 +29,8 @@ class NotesAdapter(val requireContext: Context, val notesList: List<Notes>) :
 
     override fun onBindViewHolder(holder: notesViewHolder, position: Int) {
         val data = notesList[position]
-        holder.binding.notesTitle.text = data.title
-        holder.binding.notesDescricao.text = data.notes
+        holder.binding.notesTitle.text = data.name
+        holder.binding.notesDescricao.text = data.description
 
 //        when (data.priority) {
 //            "1" -> {
@@ -44,8 +45,8 @@ class NotesAdapter(val requireContext: Context, val notesList: List<Notes>) :
 //        }
 
         holder.binding.root.setOnClickListener {
-           // val action = HomeFragmentDirections.actionHomeFragmentToEditNotesFragment(data)
-            //Navigation.findNavController(it).navigate(action)
+            val action = HomeFragmentDirections.actionHomeFragmentToEditNotesFragment(data)
+            Navigation.findNavController(it).navigate(action)
 
         }
 

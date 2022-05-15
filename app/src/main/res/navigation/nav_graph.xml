@@ -36,6 +36,6 @@
             app:destination="@id/homeFragment" />
         <argument
             android:name="data"
-            app:argType="com.jamessaboia.prodmaisapp.Model.Notes" />
+            app:argType="com.jamessaboia.prodmaisapp.Model.Task" />
     </fragment>
 </navigation>

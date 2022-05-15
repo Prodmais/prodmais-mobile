@@ -16,9 +16,12 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.ui.NavigationUI
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.jamessaboia.prodmaisapp.Model.Login
 import com.jamessaboia.prodmaisapp.Model.Notes
+import com.jamessaboia.prodmaisapp.Model.TaskPost
 import com.jamessaboia.prodmaisapp.R
 import com.jamessaboia.prodmaisapp.ViewModel.NotesViewModel
+import com.jamessaboia.prodmaisapp.ViewModel.TaskViewModel
 import com.jamessaboia.prodmaisapp.databinding.FragmentEditNotesBinding
 
 class EditNotesFragment : Fragment(), FragmentManager.OnBackStackChangedListener {
@@ -27,7 +30,7 @@ class EditNotesFragment : Fragment(), FragmentManager.OnBackStackChangedListener
     lateinit var binding: FragmentEditNotesBinding
 
     //  var priority: String = "1"
-    val viewModel: NotesViewModel by viewModels()
+    val viewModel: TaskViewModel by viewModels()
     lateinit var navController: NavController
 
     override fun onCreateView(
@@ -39,8 +42,8 @@ class EditNotesFragment : Fragment(), FragmentManager.OnBackStackChangedListener
         binding = FragmentEditNotesBinding.inflate(layoutInflater, container, false)
         setHasOptionsMenu(true)
 
-        binding.edtTitle.setText(oldNotes.data.title)
-        binding.edtNotes.setText(oldNotes.data.notes)
+        binding.edtTitle.setText(oldNotes.data.name)
+        binding.edtNotes.setText(oldNotes.data.description)
 
 //        when (oldNotes.data.priority) {
 //            "1" -> {
@@ -107,13 +110,28 @@ class EditNotesFragment : Fragment(), FragmentManager.OnBackStackChangedListener
         if (title.isEmpty() || title.isBlank()){
             Toast.makeText(requireContext(), "Adicione um título a tarefa!", Toast.LENGTH_SHORT).show()
         } else {
-            val data = Notes(
-                oldNotes.data.id,
-                title = title,
-                notes = notes
-            ) //adicionar " priority " dentro do paramentro se quiseres por de volta esta feature
+            var data: TaskPost? = null
 
-            viewModel.updateNotes(data)
+            if(notes.isEmpty() || notes.isBlank()){
+                data = TaskPost(
+                    title,
+                    null,
+                    1
+                )
+            } else {
+                data = TaskPost(
+                    title,
+                    notes,
+                    1
+                )
+            }
+
+            Login.token?.let { it1 -> oldNotes?.data.id?.let { it2 ->
+                Login.idBoard?.let { it3 ->
+                    viewModel.putTask(it1, it3,
+                        it2, data)
+                }
+            } }
 
             Toast.makeText(requireContext(), "Tarefa Editada com Sucesso!", Toast.LENGTH_SHORT).show()
 
@@ -138,7 +156,10 @@ class EditNotesFragment : Fragment(), FragmentManager.OnBackStackChangedListener
             bottonSheet.show()
 
             textViewYes?.setOnClickListener {
-                viewModel.deleteNotes(oldNotes.data.id!!)
+                Login.token?.let { it1 -> Login.idBoard?.let { it2 ->
+                    viewModel.deleteTask(it1,
+                        it2, oldNotes.data.id!!)
+                } }
 
                 Toast.makeText(requireContext(), "Tarefa Excluída com Sucesso!", Toast.LENGTH_SHORT).show()
                 navController.navigate(R.id.action_editNotesFragment_to_homeFragment)
