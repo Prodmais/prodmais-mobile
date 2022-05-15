@@ -55,11 +55,13 @@ class LoginActivity : AppCompatActivity() {
 
         sessionViewModel.login(session)!!.observe(this, Observer { session ->
             if(session != null){
-                Login(session.token)
-                Toast.makeText(this, "Bem-vindo!", Toast.LENGTH_SHORT).show()
-                val intent = Intent(applicationContext, MainActivity::class.java)
-                startActivity(intent)
-                finish()
+                sessionViewModel.getMobile(session.token)!!.observe(this, Observer { mobile ->
+                    Login(session.token, mobile)
+                    Toast.makeText(this, "Bem-vindo!", Toast.LENGTH_SHORT).show()
+                    val intent = Intent(applicationContext, MainActivity::class.java)
+                    startActivity(intent)
+                    finish()
+                })
             } else {
                 Toast.makeText(this, "Senha/Email inválidos!", Toast.LENGTH_SHORT).show()
             }

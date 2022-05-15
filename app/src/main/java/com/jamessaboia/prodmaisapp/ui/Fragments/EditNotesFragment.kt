@@ -110,15 +110,27 @@ class EditNotesFragment : Fragment(), FragmentManager.OnBackStackChangedListener
         if (title.isEmpty() || title.isBlank()){
             Toast.makeText(requireContext(), "Adicione um título a tarefa!", Toast.LENGTH_SHORT).show()
         } else {
-            val data = TaskPost(
-                title,
-                notes,
-                1
-            ) //adicionar " priority " dentro do paramentro se quiseres por de volta esta feature
+            var data: TaskPost? = null
+
+            if(notes.isEmpty() || notes.isBlank()){
+                data = TaskPost(
+                    title,
+                    null,
+                    1
+                )
+            } else {
+                data = TaskPost(
+                    title,
+                    notes,
+                    1
+                )
+            }
 
             Login.token?.let { it1 -> oldNotes?.data.id?.let { it2 ->
-                viewModel.putTask(it1,
-                    it2, data)
+                Login.idBoard?.let { it3 ->
+                    viewModel.putTask(it1, it3,
+                        it2, data)
+                }
             } }
 
             Toast.makeText(requireContext(), "Tarefa Editada com Sucesso!", Toast.LENGTH_SHORT).show()
@@ -144,7 +156,10 @@ class EditNotesFragment : Fragment(), FragmentManager.OnBackStackChangedListener
             bottonSheet.show()
 
             textViewYes?.setOnClickListener {
-                Login.token?.let { it1 -> viewModel.deleteTask(it1,oldNotes.data.id!!) }
+                Login.token?.let { it1 -> Login.idBoard?.let { it2 ->
+                    viewModel.deleteTask(it1,
+                        it2, oldNotes.data.id!!)
+                } }
 
                 Toast.makeText(requireContext(), "Tarefa Excluída com Sucesso!", Toast.LENGTH_SHORT).show()
                 navController.navigate(R.id.action_editNotesFragment_to_homeFragment)

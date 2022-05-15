@@ -9,15 +9,15 @@ import retrofit2.http.*
 
 interface TaskInterfaceApi {
 
-    @GET("board/21/task")
-    fun getTasks(@Header("Authorization") authorization: String) : Call<List<Task>>
+    @GET("board/{idBoard}/task")
+    fun getTasks(@Header("Authorization") authorization: String,  @Path("idBoard") idBoard: Int) : Call<List<Task>>
 
-    @POST("board/21/task")
-    fun postTask(@Header("Authorization") authorization: String, @Body taskPost: TaskPost) : Call<Task>
+    @POST("board/{idBoard}/task")
+    fun postTask(@Header("Authorization") authorization: String, @Path("idBoard") idBoard: Int, @Body taskPost: TaskPost) : Call<Task>
 
-    @PUT("board/21/task/{idTask}")
-    fun putTask(@Header("Authorization") authorization: String, @Path("idTask") idTask: Int, @Body taskPost: TaskPost) : Call<Task>
+    @PUT("board/{idBoard}/task/{idTask}")
+    fun putTask(@Header("Authorization") authorization: String, @Path("idBoard") idBoard: Int, @Path("idTask") idTask: Int, @Body taskPost: TaskPost) : Call<Task>
 
-    @DELETE("board/21/task/{idTask}")
-    fun deleteTask(@Header("Authorization") authorization: String, @Path("idTask") idTask: Int) : Call<Task>
+    @DELETE("board/{idBoard}/task/{idTask}")
+    fun deleteTask(@Header("Authorization") authorization: String, @Path("idBoard") idBoard: Int, @Path("idTask") idTask: Int) : Call<Task>
 }

@@ -56,6 +56,7 @@ object UserRepository {
         call.enqueue(object: Callback<User> {
             override fun onFailure(call: Call<User>, t: Throwable) {
                 Log.v("DEBUG : ", t.message.toString())
+                serviceUser.value = null
             }
 
             override fun onResponse(
@@ -66,15 +67,19 @@ object UserRepository {
 
                 val data = response.body()
 
-                val id = data!!.id
-                val name = data!!.name
-                val email = data!!.email
-                val password = data!!.password
-                val updatedAt = data!!.updatedAt
-                val createdAt = data!!.createdAt
-                val deletedAt = data!!.deletedAt
+                if(data != null) {
+                    val id = data!!.id
+                    val name = data!!.name
+                    val email = data!!.email
+                    val password = data!!.password
+                    val updatedAt = data!!.updatedAt
+                    val createdAt = data!!.createdAt
+                    val deletedAt = data!!.deletedAt
 
-                serviceUser.value = User(id, name, email, password, updatedAt, createdAt, deletedAt)
+                    serviceUser.value = User(id, name, email, password, updatedAt, createdAt, deletedAt)
+                } else {
+                    serviceUser.value = null
+                }
             }
         })
 

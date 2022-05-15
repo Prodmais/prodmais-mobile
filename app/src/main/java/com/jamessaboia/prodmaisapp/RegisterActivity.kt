@@ -7,7 +7,10 @@ import android.widget.Toast
 import androidx.core.util.PatternsCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.jamessaboia.prodmaisapp.Model.Login
+import com.jamessaboia.prodmaisapp.Model.SessionPost
 import com.jamessaboia.prodmaisapp.Model.UserPost
+import com.jamessaboia.prodmaisapp.ViewModel.SessionViewModel
 import com.jamessaboia.prodmaisapp.ViewModel.UserViewModel
 import com.jamessaboia.prodmaisapp.databinding.ActivityRegisterBinding
 import java.util.regex.Pattern
@@ -17,6 +20,7 @@ class RegisterActivity : AppCompatActivity() {
     lateinit var binding: ActivityRegisterBinding
 
     lateinit var userViewModel: UserViewModel
+    lateinit var sessionViewModel: SessionViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,6 +30,7 @@ class RegisterActivity : AppCompatActivity() {
         supportActionBar?.hide()
 
         userViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
+        sessionViewModel = ViewModelProvider(this).get(SessionViewModel::class.java)
 
         binding.btRegister.setOnClickListener {
             validate()
@@ -47,13 +52,17 @@ class RegisterActivity : AppCompatActivity() {
 
         val user = UserPost(nome, email, senha)
 
-        userViewModel.postUser(user)!!.observe(this, Observer { user ->
-            println(user)
-        })
+        //var sessionUser: SessionPost? = null
 
-        Toast.makeText(this, "Cadastro realizado com Sucesso!", Toast.LENGTH_SHORT).show()
-        val intent = Intent(this, MainActivity::class.java)
-        startActivity(intent)
+        userViewModel.postUser(user)!!.observe(this, Observer { user ->
+            if(user != null) {
+                val intent = Intent(applicationContext, Login::class.java)
+                startActivity(intent)
+                finish()
+            } else {
+                Toast.makeText(this, "Falha no Cadastro!", Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 
     private fun validateName(): Boolean {

@@ -4,10 +4,12 @@ class Login(){
 
     companion object login {
         var token: String? = null
+        var idBoard: Int? = null
     }
 
-    constructor(token: String) : this(){
+    constructor(token: String, idBoard: Int) : this(){
         login.token = token
+        login.idBoard = idBoard
     }
 
 }

@@ -29,14 +29,13 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        Login.token?.let { Log.v("TOKEN : ", it) }
         binding = FragmentHomeBinding.inflate(layoutInflater, container, false)
 
         setHasOptionsMenu(true)
 
         binding.rcvAllNotes.layoutManager = LinearLayoutManager(requireContext())
 
-        viewModel.getTaks("${Login.token}")!!.observe(viewLifecycleOwner, { taskList ->
+        Login.idBoard?.let { viewModel.getTaks("${Login.token}", it) }!!.observe(viewLifecycleOwner, { taskList ->
             oldMyNotes = taskList as ArrayList<Task>
             adapter = TaskAdapter(requireContext(), taskList)
             binding.rcvAllNotes.adapter = adapter

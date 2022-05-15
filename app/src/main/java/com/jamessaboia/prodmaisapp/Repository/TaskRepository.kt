@@ -21,9 +21,9 @@ object TaskRepository {
     val serviceTask = MutableLiveData<Task>()
     val serviceListTask = MutableLiveData<List<Task>>()
 
-    fun getTasks(token: String): MutableLiveData<List<Task>> {
+    fun getTasks(token: String, idBoard: Int): MutableLiveData<List<Task>> {
 
-        val call: Call<List<Task>> = remote.getTasks("Bearer $token");
+        val call: Call<List<Task>> = remote.getTasks("Bearer $token", idBoard);
 
         call.enqueue(object: Callback<List<Task>> {
             override fun onFailure(call: Call<List<Task>>, t: Throwable) {
@@ -60,9 +60,9 @@ object TaskRepository {
         return serviceListTask
     }
 
-    fun postTask(token: String, taskPost: TaskPost): MutableLiveData<Task> {
+    fun postTask(token: String, idBoard: Int, taskPost: TaskPost): MutableLiveData<Task> {
 
-        val call: Call<Task> = remote.postTask("Bearer $token", taskPost);
+        val call: Call<Task> = remote.postTask("Bearer $token", idBoard, taskPost);
 
         call.enqueue(object: Callback<Task> {
             override fun onFailure(call: Call<Task>, t: Throwable) {
@@ -94,9 +94,9 @@ object TaskRepository {
         return serviceTask
     }
 
-    fun putTask(token: String, idTask: Int, taskPost: TaskPost): MutableLiveData<Task> {
+    fun putTask(token: String, idBoard: Int, idTask: Int, taskPost: TaskPost): MutableLiveData<Task> {
 
-        val call: Call<Task> = remote.putTask("Bearer $token", idTask, taskPost);
+        val call: Call<Task> = remote.putTask("Bearer $token", idBoard, idTask, taskPost);
 
         call.enqueue(object: Callback<Task> {
             override fun onFailure(call: Call<Task>, t: Throwable) {
@@ -128,9 +128,9 @@ object TaskRepository {
         return serviceTask
     }
 
-    fun deleteTask(token: String, idTask: Int): MutableLiveData<Task> {
+    fun deleteTask(token: String, idBoard: Int, idTask: Int): MutableLiveData<Task> {
 
-        val call: Call<Task> = remote.deleteTask("Bearer $token", idTask);
+        val call: Call<Task> = remote.deleteTask("Bearer $token", idBoard, idTask);
 
         call.enqueue(object: Callback<Task> {
             override fun onFailure(call: Call<Task>, t: Throwable) {

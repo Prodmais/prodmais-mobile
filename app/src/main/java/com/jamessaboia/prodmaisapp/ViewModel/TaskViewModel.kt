@@ -16,27 +16,23 @@ class TaskViewModel : ViewModel() {
     var servicesLiveData: MutableLiveData<List<Task>>? = null
     var serviceTaskLiveData: MutableLiveData<Task>? = null
 
-    fun getTaks(token: String): LiveData<List<Task>>? {
-        Log.v("TOKEN : ", token)
-        servicesLiveData = TaskRepository.getTasks(token)
+    fun getTaks(token: String, idBoard: Int): LiveData<List<Task>>? {
+        servicesLiveData = TaskRepository.getTasks(token, idBoard)
         return servicesLiveData
     }
 
-    fun postTask(token: String, taskPost: TaskPost): LiveData<Task>? {
-        Log.v("TOKEN : ", token)
-        serviceTaskLiveData = TaskRepository.postTask(token, taskPost)
+    fun postTask(token: String, idBoard: Int, taskPost: TaskPost): LiveData<Task>? {
+        serviceTaskLiveData = TaskRepository.postTask(token, idBoard, taskPost)
         return serviceTaskLiveData
     }
 
-    fun putTask(token: String, idTask: Int,taskPost: TaskPost): LiveData<Task>? {
-        Log.v("TOKEN : ", token)
-        serviceTaskLiveData = TaskRepository.putTask(token, idTask, taskPost)
+    fun putTask(token: String, idBoard: Int, idTask: Int,taskPost: TaskPost): LiveData<Task>? {
+        serviceTaskLiveData = TaskRepository.putTask(token, idBoard, idTask, taskPost)
         return serviceTaskLiveData
     }
 
-    fun deleteTask(token: String, idTask: Int): LiveData<Task>? {
-        Log.v("TOKEN : ", token)
-        serviceTaskLiveData = TaskRepository.deleteTask(token, idTask)
+    fun deleteTask(token: String, idBoard: Int, idTask: Int): LiveData<Task>? {
+        serviceTaskLiveData = TaskRepository.deleteTask(token, idBoard, idTask)
         return serviceTaskLiveData
     }
 }

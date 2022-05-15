@@ -14,8 +14,15 @@ class SessionViewModel  : ViewModel() {
 
     var servicesLiveData: MutableLiveData<Session>? = null
 
+    var servicesLiveDataBoard: MutableLiveData<Int>? = null
+
     fun login(sessionPost: SessionPost): LiveData<Session>? {
         servicesLiveData = SessionRepository.login(sessionPost)
         return servicesLiveData
+    }
+
+    fun getMobile(token: String): LiveData<Int>? {
+        servicesLiveDataBoard = SessionRepository.getBoardMobile(token)
+        return servicesLiveDataBoard
     }
 }

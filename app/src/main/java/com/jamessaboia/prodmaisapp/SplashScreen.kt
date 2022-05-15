@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
+import com.jamessaboia.prodmaisapp.Model.Login
 
 class SplashScreen : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -15,9 +17,13 @@ class SplashScreen : AppCompatActivity() {
 
         Handler(Looper.getMainLooper()).postDelayed(Runnable {
             //code
-            startActivity(Intent(this, LoginActivity::class.java))
-
-            finish()
+            if(Login.token != null){
+                startActivity(Intent(this, MainActivity::class.java))
+                finish()
+            } else{
+                startActivity(Intent(this, LoginActivity::class.java))
+                finish()
+            }
         }, 2000)
     }
 }
