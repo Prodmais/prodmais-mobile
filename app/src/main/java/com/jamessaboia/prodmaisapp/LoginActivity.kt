@@ -3,15 +3,14 @@ package com.jamessaboia.prodmaisapp
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.core.util.PatternsCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.jamessaboia.prodmaisapp.Database.SecurityPrefences
 import com.jamessaboia.prodmaisapp.Model.Login
 import com.jamessaboia.prodmaisapp.Model.SessionPost
 import com.jamessaboia.prodmaisapp.ViewModel.SessionViewModel
-import com.jamessaboia.prodmaisapp.ViewModel.UserViewModel
 import com.jamessaboia.prodmaisapp.databinding.ActivityLoginBinding
 
 
@@ -21,6 +20,8 @@ class LoginActivity : AppCompatActivity() {
 
     lateinit var sessionViewModel: SessionViewModel
 
+    private lateinit var mSecurityPrefences: SecurityPrefences
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
@@ -28,6 +29,7 @@ class LoginActivity : AppCompatActivity() {
 
         supportActionBar?.hide()
 
+        mSecurityPrefences = SecurityPrefences(this)
         sessionViewModel = ViewModelProvider(this).get(SessionViewModel::class.java)
 
         binding.btLogin.setOnClickListener {
@@ -37,6 +39,7 @@ class LoginActivity : AppCompatActivity() {
         binding.tvTelaCadastro.setOnClickListener {
             val intent = Intent(this, RegisterActivity::class.java)
             this.startActivity(intent)
+            finish()
         }
 
     }
@@ -57,6 +60,8 @@ class LoginActivity : AppCompatActivity() {
             if(session != null){
                 sessionViewModel.getMobile(session.token)!!.observe(this, Observer { mobile ->
                     Login(session.token, mobile)
+                    mSecurityPrefences.storeString("TOKEN", session.token)
+                    mSecurityPrefences.storeString("MOBILE", mobile.toString())
                     Toast.makeText(this, "Bem-vindo!", Toast.LENGTH_SHORT).show()
                     val intent = Intent(applicationContext, MainActivity::class.java)
                     startActivity(intent)

@@ -7,8 +7,10 @@ import android.widget.Toast
 import androidx.core.util.PatternsCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.jamessaboia.prodmaisapp.Database.SecurityPrefences
 import com.jamessaboia.prodmaisapp.Model.Login
 import com.jamessaboia.prodmaisapp.Model.SessionPost
+import com.jamessaboia.prodmaisapp.Model.User
 import com.jamessaboia.prodmaisapp.Model.UserPost
 import com.jamessaboia.prodmaisapp.ViewModel.SessionViewModel
 import com.jamessaboia.prodmaisapp.ViewModel.UserViewModel
@@ -22,6 +24,10 @@ class RegisterActivity : AppCompatActivity() {
     lateinit var userViewModel: UserViewModel
     lateinit var sessionViewModel: SessionViewModel
 
+    private lateinit var mSecurityPrefences: SecurityPrefences
+
+    private lateinit var mUser: User
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityRegisterBinding.inflate(layoutInflater)
@@ -31,6 +37,7 @@ class RegisterActivity : AppCompatActivity() {
 
         userViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
         sessionViewModel = ViewModelProvider(this).get(SessionViewModel::class.java)
+        mSecurityPrefences = SecurityPrefences(this)
 
         binding.btRegister.setOnClickListener {
             validate()
@@ -56,7 +63,7 @@ class RegisterActivity : AppCompatActivity() {
 
         userViewModel.postUser(user)!!.observe(this, Observer { user ->
             if(user != null) {
-                val intent = Intent(applicationContext, Login::class.java)
+                val intent = Intent(applicationContext, LoginActivity::class.java)
                 startActivity(intent)
                 finish()
             } else {
