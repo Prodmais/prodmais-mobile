@@ -1,5 +1,7 @@
 package com.jamessaboia.prodmaisapp.ui.Fragments
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -7,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.jamessaboia.prodmaisapp.Interface.Listeners.MainListener
 import com.jamessaboia.prodmaisapp.Model.Login
 import com.jamessaboia.prodmaisapp.Model.Notes
 import com.jamessaboia.prodmaisapp.Model.Task
@@ -19,6 +22,7 @@ import com.jamessaboia.prodmaisapp.ui.Adapter.TaskAdapter
 
 class HomeFragment : Fragment() {
 
+    private lateinit var mMainListener: MainListener
     lateinit var binding: FragmentHomeBinding
     val viewModel: TaskViewModel by viewModels()
     var oldMyNotes = arrayListOf<Task>()
@@ -54,7 +58,7 @@ class HomeFragment : Fragment() {
 
         val item1 = menu.findItem(R.id.menu_selecionar_todas)
         val item2 = menu.findItem(R.id.menu_excluir)
-        val item3 = menu.findItem(R.id.menu_comentarios)
+        val item3 = menu.findItem(R.id.menu_logout)
 
         val selecionarTodasView = item1.actionView
         val excluirView = item2.actionView
@@ -62,6 +66,23 @@ class HomeFragment : Fragment() {
 
 
         super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onAttach(activity: Activity) {
+        super.onAttach(activity)
+        try {
+            mMainListener = activity as MainListener
+        } catch (e: ClassCastException) {
+        }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+        if(item.itemId == R.id.menu_logout){
+            mMainListener.goToLogin()
+        }
+
+        return super.onOptionsItemSelected(item)
     }
 
 }

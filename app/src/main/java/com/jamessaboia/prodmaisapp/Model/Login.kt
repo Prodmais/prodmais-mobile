@@ -7,7 +7,7 @@ class Login(){
         var idBoard: Int? = null
     }
 
-    constructor(token: String, idBoard: Int) : this(){
+    constructor(token: String?, idBoard: Int?) : this(){
         login.token = token
         login.idBoard = idBoard
     }
