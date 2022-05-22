@@ -18,6 +18,8 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.ui.NavigationUI
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.snackbar.Snackbar
+import com.jamessaboia.prodmaisapp.Constants.Constants
 import com.jamessaboia.prodmaisapp.Model.Login
 import com.jamessaboia.prodmaisapp.Model.Notes
 import com.jamessaboia.prodmaisapp.Model.TaskPost
@@ -25,6 +27,8 @@ import com.jamessaboia.prodmaisapp.R
 import com.jamessaboia.prodmaisapp.ViewModel.NotesViewModel
 import com.jamessaboia.prodmaisapp.ViewModel.TaskViewModel
 import com.jamessaboia.prodmaisapp.databinding.FragmentEditNotesBinding
+import java.util.*
+import kotlin.random.Random
 
 class EditNotesFragment : Fragment(), FragmentManager.OnBackStackChangedListener, AdapterView.OnItemSelectedListener {
 
@@ -36,6 +40,7 @@ class EditNotesFragment : Fragment(), FragmentManager.OnBackStackChangedListener
     lateinit var navController: NavController
 
     private var status: Int = 0
+    private var statusCurrent: Int = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -57,10 +62,13 @@ class EditNotesFragment : Fragment(), FragmentManager.OnBackStackChangedListener
         binding.edtStatus.onItemSelectedListener = this
 
         if(oldNotes.data.status == "Do"){
+            statusCurrent = 1
             binding.edtStatus.setSelection(0)
         } else if(oldNotes.data.status == "Doing"){
+            statusCurrent = 2
             binding.edtStatus.setSelection(1)
         } else if(oldNotes.data.status == "Done"){
+            statusCurrent = 3
             binding.edtStatus.setSelection(2)
         }
 
@@ -152,7 +160,17 @@ class EditNotesFragment : Fragment(), FragmentManager.OnBackStackChangedListener
                 }
             } }
 
-            Toast.makeText(requireContext(), "Tarefa Editada com Sucesso!", Toast.LENGTH_SHORT).show()
+            if(status == 3 && status != statusCurrent){
+                val snackbar = Snackbar.make(it!!, Constants.listMessage.get(Random.nextInt(0, Constants.listMessage.size - 1)), Snackbar.LENGTH_INDEFINITE)
+
+                snackbar.setAction("OK", View.OnClickListener {
+                    snackbar.dismiss()
+                })
+
+                snackbar.show()
+            } else{
+                Toast.makeText(requireContext(), "Tarefa Editada com Sucesso!", Toast.LENGTH_SHORT).show()
+            }
 
             Navigation.findNavController(it!!).navigate(R.id.action_editNotesFragment_to_homeFragment)
         }
