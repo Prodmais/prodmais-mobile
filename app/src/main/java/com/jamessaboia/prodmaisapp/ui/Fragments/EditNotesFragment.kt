@@ -1,28 +1,37 @@
 package com.jamessaboia.prodmaisapp.ui.Fragments
 
+import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import android.widget.Toast
+import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
+import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
-import com.google.android.material.bottomsheet.BottomSheetBehavior
+import androidx.navigation.ui.NavigationUI
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.jamessaboia.prodmaisapp.Model.Login
 import com.jamessaboia.prodmaisapp.Model.Notes
+import com.jamessaboia.prodmaisapp.Model.TaskPost
 import com.jamessaboia.prodmaisapp.R
 import com.jamessaboia.prodmaisapp.ViewModel.NotesViewModel
+import com.jamessaboia.prodmaisapp.ViewModel.TaskViewModel
 import com.jamessaboia.prodmaisapp.databinding.FragmentEditNotesBinding
 
-class EditNotesFragment : Fragment() {
+class EditNotesFragment : Fragment(), FragmentManager.OnBackStackChangedListener {
 
     val oldNotes by navArgs<EditNotesFragmentArgs>()
     lateinit var binding: FragmentEditNotesBinding
 
     //  var priority: String = "1"
-    val viewModel: NotesViewModel by viewModels()
+    val viewModel: TaskViewModel by viewModels()
+    lateinit var navController: NavController
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,9 +42,8 @@ class EditNotesFragment : Fragment() {
         binding = FragmentEditNotesBinding.inflate(layoutInflater, container, false)
         setHasOptionsMenu(true)
 
-        binding.edtTitle.setText(oldNotes.data.title)
-        binding.edtNotes.setText(oldNotes.data.notes)
-
+        binding.edtTitle.setText(oldNotes.data.name)
+        binding.edtNotes.setText(oldNotes.data.description)
 
 //        when (oldNotes.data.priority) {
 //            "1" -> {
@@ -87,6 +95,12 @@ class EditNotesFragment : Fragment() {
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        navController = Navigation.findNavController(view)
+    }
+
     private fun updateNotes(it: View?) {
 
         val title = binding.edtTitle.text.toString()
@@ -96,13 +110,28 @@ class EditNotesFragment : Fragment() {
         if (title.isEmpty() || title.isBlank()){
             Toast.makeText(requireContext(), "Adicione um título a tarefa!", Toast.LENGTH_SHORT).show()
         } else {
-            val data = Notes(
-                oldNotes.data.id,
-                title = title,
-                notes = notes
-            ) //adicionar " priority " dentro do paramentro se quiseres por de volta esta feature
+            var data: TaskPost? = null
 
-            viewModel.updateNotes(data)
+            if(notes.isEmpty() || notes.isBlank()){
+                data = TaskPost(
+                    title,
+                    null,
+                    1
+                )
+            } else {
+                data = TaskPost(
+                    title,
+                    notes,
+                    1
+                )
+            }
+
+            Login.token?.let { it1 -> oldNotes?.data.id?.let { it2 ->
+                Login.idBoard?.let { it3 ->
+                    viewModel.putTask(it1, it3,
+                        it2, data)
+                }
+            } }
 
             Toast.makeText(requireContext(), "Tarefa Editada com Sucesso!", Toast.LENGTH_SHORT).show()
 
@@ -124,23 +153,29 @@ class EditNotesFragment : Fragment() {
             val textViewYes = bottonSheet.findViewById<TextView>(R.id.dialog_yes)
             val textViewNo = bottonSheet.findViewById<TextView>(R.id.dialog_no)
 
+            bottonSheet.show()
+
             textViewYes?.setOnClickListener {
-                viewModel.deleteNotes(oldNotes.data.id!!)
-                bottonSheet.dismiss()
+                Login.token?.let { it1 -> Login.idBoard?.let { it2 ->
+                    viewModel.deleteTask(it1,
+                        it2, oldNotes.data.id!!)
+                } }
 
                 Toast.makeText(requireContext(), "Tarefa Excluída com Sucesso!", Toast.LENGTH_SHORT).show()
-                Navigation.findNavController(it!!).navigate(R.id.action_editNotesFragment_to_homeFragment)
-
-
+                navController.navigate(R.id.action_editNotesFragment_to_homeFragment)
+                bottonSheet.dismiss()
             }
 
             textViewNo?.setOnClickListener {
                 bottonSheet.dismiss()
             }
-
-            bottonSheet.show()
         }
-        return super.onOptionsItemSelected(item)
+        return NavigationUI.onNavDestinationSelected(item!!,
+            requireView().findNavController()) || super.onOptionsItemSelected(item)
+    }
+
+    override fun onBackStackChanged() {
+        navController.navigate(R.id.action_editNotesFragment_to_homeFragment)
     }
 
 }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/white">
 
    <item
        android:id="@+id/menu_selecionar_todas"
@@ -10,8 +11,8 @@
        android:title="@string/excluir" />
 
    <item
-      android:id="@+id/menu_comentarios"
-      android:title="@string/comentarios"
+      android:id="@+id/menu_logout"
+      android:title="@string/logout"
        />
 
 </menu>
