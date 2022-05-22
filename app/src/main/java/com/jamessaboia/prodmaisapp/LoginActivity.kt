@@ -46,6 +46,7 @@ class LoginActivity : AppCompatActivity() {
 
     private fun validate() {
         val result = arrayOf(validateEmail(), validatePassword())
+        binding.btLogin.isActivated = false
 
         if (false in result) {
             return
@@ -69,6 +70,7 @@ class LoginActivity : AppCompatActivity() {
                 })
             } else {
                 Toast.makeText(this, "Senha/Email inválidos!", Toast.LENGTH_SHORT).show()
+                binding.btLogin.isActivated = true
             }
         })
     }

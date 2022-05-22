@@ -43,11 +43,17 @@ class RegisterActivity : AppCompatActivity() {
             validate()
         }
 
+        binding.tvTelaLogin.setOnClickListener {
+            val intent = Intent(this, LoginActivity::class.java)
+            this.startActivity(intent)
+            finish()
+        }
 
     }
 
     private fun validate() {
         val result = arrayOf(validateName(), validateEmail(), validatePassword())
+        binding.btRegister.isActivated = false
 
         if (false in result) {
             return
@@ -68,6 +74,7 @@ class RegisterActivity : AppCompatActivity() {
                 finish()
             } else {
                 Toast.makeText(this, "Falha no Cadastro!", Toast.LENGTH_SHORT).show()
+                binding.btRegister.isActivated = true
             }
         })
     }
