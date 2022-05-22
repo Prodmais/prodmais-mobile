@@ -11,11 +11,14 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
+import com.google.android.material.snackbar.Snackbar
+import com.jamessaboia.prodmaisapp.Constants.Constants
 import com.jamessaboia.prodmaisapp.Model.Login
 import com.jamessaboia.prodmaisapp.Model.TaskPost
 import com.jamessaboia.prodmaisapp.R
 import com.jamessaboia.prodmaisapp.ViewModel.TaskViewModel
 import com.jamessaboia.prodmaisapp.databinding.FragmentCreateNotesBinding
+import kotlin.random.Random
 
 
 class CreateNotesFragment : Fragment(), AdapterView.OnItemSelectedListener {
@@ -99,6 +102,16 @@ class CreateNotesFragment : Fragment(), AdapterView.OnItemSelectedListener {
             } }
 
             Toast.makeText(requireContext(), "Tarefa Criada com Sucesso!", Toast.LENGTH_SHORT).show()
+
+            if(status == 3){
+                val snackbar = Snackbar.make(it!!, Constants.listMessage.get(Random.nextInt(0, Constants.listMessage.size - 1)), Snackbar.LENGTH_INDEFINITE)
+
+                snackbar.setAction("OK", View.OnClickListener {
+                    snackbar.dismiss()
+                })
+
+                snackbar.show()
+            }
 
             Navigation.findNavController(it!!).navigate(R.id.action_createNotesFragment_to_homeFragment)
         }
