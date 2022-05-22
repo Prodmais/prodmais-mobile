@@ -70,7 +70,16 @@
             android:textColor="@color/colorSecodary"
             android:textColorHint="@color/colorSecodary" />
 
-
+        <Spinner
+            android:id="@+id/edtStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/edt_txt_shape"
+            android:padding="5dp"
+            android:textColor="@color/colorSecodary"
+            android:textColorHint="@color/colorSecodary"
+            android:entries="@array/spinner_values" />
     </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

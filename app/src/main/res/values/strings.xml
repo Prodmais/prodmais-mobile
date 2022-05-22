@@ -5,11 +5,19 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="t_tulo">Título...</string>
     <string name="descri_o">Descrição...</string>
-    <string name="selecionar_todas">Selecionar Todas</string>
+    <string name="selecionar_todas">Todas</string>
     <string name="excluir">Excluir</string>
     <string name="logout">Logout</string>
     <string name="home">HOME</string>
     <string name="lembretes">LEMBRETES</string>
     <string name="conta">CONTA</string>
     <string name="siga_nos">SIGA-NOS</string>
+    <string name="fazer">A Fazer</string>
+    <string name="fazendo">Fazendo</string>
+    <string name="feito">Feito</string>
+    <string-array name="spinner_values">
+        <item>A Fazer</item>
+        <item>Fazendo</item>
+        <item>Feito</item>
+    </string-array>
 </resources>

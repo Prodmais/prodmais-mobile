@@ -1,26 +1,30 @@
 package com.jamessaboia.prodmaisapp.ui.Fragments
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Adapter
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import com.jamessaboia.prodmaisapp.Model.Login
-import com.jamessaboia.prodmaisapp.Model.Notes
 import com.jamessaboia.prodmaisapp.Model.TaskPost
 import com.jamessaboia.prodmaisapp.R
-import com.jamessaboia.prodmaisapp.ViewModel.NotesViewModel
 import com.jamessaboia.prodmaisapp.ViewModel.TaskViewModel
 import com.jamessaboia.prodmaisapp.databinding.FragmentCreateNotesBinding
 
-class CreateNotesFragment : Fragment() {
+
+class CreateNotesFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
     lateinit var binding: FragmentCreateNotesBinding
 //  var priority: String = "1"
     val viewModel: TaskViewModel by viewModels()
+
+    private var status: Int = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -50,11 +54,16 @@ class CreateNotesFragment : Fragment() {
 //            binding.pYellow.setImageResource(0)
 //        }
 
+        val adapter: ArrayAdapter<*> =
+            ArrayAdapter.createFromResource(requireContext(), R.array.spinner_values, R.layout.spinner_items)
+        adapter.setDropDownViewResource(R.layout.spinner_items);
+        binding.edtStatus.setAdapter(adapter)
+
+        binding.edtStatus.onItemSelectedListener = this
 
         binding.btnSaveNotes.setOnClickListener {
             createNotes(it)
         }
-
 
         return binding.root
     }
@@ -74,13 +83,13 @@ class CreateNotesFragment : Fragment() {
                 data = TaskPost(
                     title,
                     null,
-                    1
+                    status
                 )
             } else {
                 data = TaskPost(
                     title,
                     notes,
-                    1
+                    status
                 )
             }
 
@@ -95,6 +104,16 @@ class CreateNotesFragment : Fragment() {
         }
     }
 
+    override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+        when(p0?.id){
+            R.id.edtStatus ->{
+                status = p2 + 1
+            }
+        }
+    }
+
+    override fun onNothingSelected(p0: AdapterView<*>?) {
+    }
 
 
 }

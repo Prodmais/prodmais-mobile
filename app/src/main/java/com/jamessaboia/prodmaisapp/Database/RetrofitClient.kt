@@ -9,7 +9,8 @@ class RetrofitClient {
     companion object {
         private lateinit var retrofit: Retrofit
 
-        private const val BASE_URL = "https://api-prodmais.herokuapp.com"
+        //private const val BASE_URL = "https://api-prodmais.herokuapp.com"
+        private const val BASE_URL = "http://ec2-54-144-120-45.compute-1.amazonaws.com:3000"
 
         // Retorna instância para conexão remota
         private fun getRetrofitInstance(): Retrofit {

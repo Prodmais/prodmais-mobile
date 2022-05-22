@@ -5,6 +5,8 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import android.widget.Toast
@@ -24,7 +26,7 @@ import com.jamessaboia.prodmaisapp.ViewModel.NotesViewModel
 import com.jamessaboia.prodmaisapp.ViewModel.TaskViewModel
 import com.jamessaboia.prodmaisapp.databinding.FragmentEditNotesBinding
 
-class EditNotesFragment : Fragment(), FragmentManager.OnBackStackChangedListener {
+class EditNotesFragment : Fragment(), FragmentManager.OnBackStackChangedListener, AdapterView.OnItemSelectedListener {
 
     val oldNotes by navArgs<EditNotesFragmentArgs>()
     lateinit var binding: FragmentEditNotesBinding
@@ -32,6 +34,8 @@ class EditNotesFragment : Fragment(), FragmentManager.OnBackStackChangedListener
     //  var priority: String = "1"
     val viewModel: TaskViewModel by viewModels()
     lateinit var navController: NavController
+
+    private var status: Int = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,6 +48,21 @@ class EditNotesFragment : Fragment(), FragmentManager.OnBackStackChangedListener
 
         binding.edtTitle.setText(oldNotes.data.name)
         binding.edtNotes.setText(oldNotes.data.description)
+
+        val adapter: ArrayAdapter<*> =
+            ArrayAdapter.createFromResource(requireContext(), R.array.spinner_values, R.layout.spinner_items)
+        adapter.setDropDownViewResource(R.layout.spinner_items);
+        binding.edtStatus.setAdapter(adapter)
+
+        binding.edtStatus.onItemSelectedListener = this
+
+        if(oldNotes.data.status == "Do"){
+            binding.edtStatus.setSelection(0)
+        } else if(oldNotes.data.status == "Doing"){
+            binding.edtStatus.setSelection(1)
+        } else if(oldNotes.data.status == "Done"){
+            binding.edtStatus.setSelection(2)
+        }
 
 //        when (oldNotes.data.priority) {
 //            "1" -> {
@@ -116,13 +135,13 @@ class EditNotesFragment : Fragment(), FragmentManager.OnBackStackChangedListener
                 data = TaskPost(
                     title,
                     null,
-                    1
+                    status
                 )
             } else {
                 data = TaskPost(
                     title,
                     notes,
-                    1
+                    status
                 )
             }
 
@@ -176,6 +195,17 @@ class EditNotesFragment : Fragment(), FragmentManager.OnBackStackChangedListener
 
     override fun onBackStackChanged() {
         navController.navigate(R.id.action_editNotesFragment_to_homeFragment)
+    }
+
+    override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+        when(p0?.id){
+            R.id.edtStatus ->{
+                status = p2 + 1
+            }
+        }
+    }
+
+    override fun onNothingSelected(p0: AdapterView<*>?) {
     }
 
 }
