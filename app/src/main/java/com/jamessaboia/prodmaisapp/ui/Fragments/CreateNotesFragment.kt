@@ -96,5 +96,4 @@ class CreateNotesFragment : Fragment() {
     }
 
 
-
 }
