@@ -37,23 +37,26 @@ object TaskRepository {
                 Log.v("DEBUG : ", response.body().toString())
 
                 val datas = response.body()
-                var list: MutableList<Task> = mutableListOf()
-                for(data in datas!!) {
-                    val id = data!!.id
-                    val boardId = data!!.boardId
-                    val name = data!!.name
-                    val email = data!!.description
-                    val status = data!!.status
-                    val updatedAt = data!!.updatedAt
-                    val createdAt = data!!.createdAt
-                    val deletedAt = data!!.endDate
 
-                    val task = Task(id, boardId, name, email, status, updatedAt, createdAt, deletedAt)
+                if(datas != null) {
+                    var list: MutableList<Task> = mutableListOf()
+                    for (data in datas!!) {
+                        val id = data!!.id
+                        val boardId = data!!.boardId
+                        val name = data!!.name
+                        val email = data!!.description
+                        val status = data!!.status
+                        val updatedAt = data!!.updatedAt
+                        val createdAt = data!!.createdAt
+                        val deletedAt = data!!.endDate
 
-                    list.add(task)
+                        val task =
+                            Task(id, boardId, name, email, status, updatedAt, createdAt, deletedAt)
+
+                        list.add(task)
+                    }
+                    serviceListTask.value = list
                 }
-
-                serviceListTask.value = list
             }
         })
 

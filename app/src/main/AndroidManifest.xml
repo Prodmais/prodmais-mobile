@@ -10,7 +10,8 @@
         android:label="@string/app_name"
         android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
-        android:theme="@style/Theme.ProdMaisApp">
+        android:theme="@style/Theme.ProdMaisApp"
+        android:usesCleartextTraffic="true">
 
         <activity
             android:name=".LoginActivity"

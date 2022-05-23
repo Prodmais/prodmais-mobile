@@ -7,8 +7,16 @@
        android:title="@string/selecionar_todas" />
 
    <item
-       android:id="@+id/menu_excluir"
-       android:title="@string/excluir" />
+       android:id="@+id/menu_fazer"
+       android:title="@string/fazer" />
+
+   <item
+       android:id="@+id/menu_fazendo"
+       android:title="@string/fazendo" />
+
+   <item
+       android:id="@+id/menu_feito"
+       android:title="@string/feito" />
 
    <item
       android:id="@+id/menu_logout"

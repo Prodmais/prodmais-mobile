@@ -1,6 +1,7 @@
 package com.jamessaboia.prodmaisapp.ui.Adapter
 
 import android.content.Context
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.navigation.Navigation
@@ -31,6 +32,17 @@ class TaskAdapter(val requireContext: Context, val notesList: List<Task>) :
         val data = notesList[position]
         holder.binding.notesTitle.text = data.name
         holder.binding.notesDescricao.text = data.description
+
+        if(data.status == "Do"){
+            holder.binding.notesStatus.text = "A Fazer"
+            holder.binding.notesStatus.setBackgroundResource(R.color.red_color)
+        } else if(data.status == "Doing"){
+            holder.binding.notesStatus.text = "Fazendo"
+            holder.binding.notesStatus.setBackgroundResource(R.color.yellow_color)
+        } else if(data.status == "Done"){
+            holder.binding.notesStatus.text = "Feito"
+            holder.binding.notesStatus.setBackgroundResource(R.color.green_color)
+        }
 
 //        when (data.priority) {
 //            "1" -> {
