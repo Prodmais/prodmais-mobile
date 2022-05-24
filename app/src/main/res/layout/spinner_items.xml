@@ -8,7 +8,9 @@
     android:elevation="2dp"
     android:hint="@string/t_tulo"
     android:maxLines="1"
-    android:padding="15dp"
+    android:textStyle="bold"
+    android:padding="14dp"
+    android:textSize="16sp"
     android:textColor="@color/colorSecodary"
     android:textColorHint="@color/colorSecodary">
 

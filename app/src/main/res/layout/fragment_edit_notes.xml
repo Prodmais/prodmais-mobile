@@ -77,6 +77,31 @@
             android:textColor="@color/colorSecodary"
             android:textColorHint="@color/colorSecodary"
             android:entries="@array/spinner_values" />
+
+<!--        <com.google.android.material.textfield.TextInputLayout-->
+<!--            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            app:hintTextColor="@color/white"-->
+<!--            android:textColorHint="@color/white"-->
+<!--            android:layout_marginTop="10dp"-->
+<!--            android:hint="Status da Tarefa:">-->
+
+<!--            <AutoCompleteTextView-->
+<!--                android:id="@+id/edtStatus"-->
+<!--                android:backgroundTint="@color/colorPrimary"-->
+<!--                android:background="@drawable/edt_txt_shape"-->
+<!--                android:textColor="@color/white"-->
+<!--                android:textColorHint="@color/white"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="1"-->
+<!--                android:inputType="none"-->
+<!--                />-->
+
+<!--        </com.google.android.material.textfield.TextInputLayout>-->
+
+
     </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
