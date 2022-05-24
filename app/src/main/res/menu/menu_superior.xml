@@ -1,26 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white">
 
-   <item
-       android:id="@+id/menu_selecionar_todas"
-       android:title="@string/selecionar_todas" />
+    <group  android:menuCategory="container"
+        android:id="@+id/filter">
 
-   <item
-       android:id="@+id/menu_fazer"
-       android:title="@string/fazer" />
+        <item
+            android:id="@+id/menu_selecionar_todas"
+            android:title="@string/selecionar_todas" />
 
-   <item
-       android:id="@+id/menu_fazendo"
-       android:title="@string/fazendo" />
+        <item
+            android:id="@+id/menu_fazer"
+            android:title="@string/fazer" />
 
-   <item
-       android:id="@+id/menu_feito"
-       android:title="@string/feito" />
+        <item
+            android:id="@+id/menu_fazendo"
+            android:title="@string/fazendo" />
 
-   <item
-      android:id="@+id/menu_logout"
-      android:title="@string/logout"
-       />
+        <item
+            android:id="@+id/menu_feito"
+            android:title="@string/feito" />
+
+    </group>
+
+
+    <item
+        android:id="@+id/menu_logout"
+        android:icon="@drawable/ic_logout"
+        android:title="@string/logout"
+        app:showAsAction="always" />
 
 </menu>
