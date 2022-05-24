@@ -4,13 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Adapter
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.Toast
+import android.widget.*
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
+import com.google.android.material.button.MaterialButton
 import com.google.android.material.snackbar.Snackbar
 import com.jamessaboia.prodmaisapp.Constants.Constants
 import com.jamessaboia.prodmaisapp.Model.Login
@@ -18,6 +17,7 @@ import com.jamessaboia.prodmaisapp.Model.TaskPost
 import com.jamessaboia.prodmaisapp.R
 import com.jamessaboia.prodmaisapp.ViewModel.TaskViewModel
 import com.jamessaboia.prodmaisapp.databinding.FragmentCreateNotesBinding
+import org.w3c.dom.Text
 import kotlin.random.Random
 
 
@@ -104,13 +104,33 @@ class CreateNotesFragment : Fragment(), AdapterView.OnItemSelectedListener {
             Toast.makeText(requireContext(), "Tarefa Criada com Sucesso!", Toast.LENGTH_SHORT).show()
 
             if(status == 3){
-                val snackbar = Snackbar.make(it!!, Constants.listMessage.get(Random.nextInt(0, Constants.listMessage.size - 1)), Snackbar.LENGTH_INDEFINITE)
 
-                snackbar.setAction("OK", View.OnClickListener {
-                    snackbar.dismiss()
-                })
+                val view = View.inflate(this.requireContext(), R.layout.dialog_quotes, null)
 
-                snackbar.show()
+
+                val builder = AlertDialog.Builder(this.requireContext())
+                builder.setView(view)
+
+                val dialog = builder.create()
+                dialog.show()
+                dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+
+                val textMotivacional = view.findViewById<TextView>(R.id.tv_motivational)
+                textMotivacional.setText(Constants.listMessage.get(Random.nextInt(0, Constants.listMessage.size - 1)))
+
+                 val buttonConfirm = view.findViewById<MaterialButton>(R.id.btn_confirm)
+                buttonConfirm.setOnClickListener {
+                    dialog.dismiss()
+                }
+
+
+//                val snackbar = Snackbar.make(it!!, Constants.listMessage.get(Random.nextInt(0, Constants.listMessage.size - 1)), Snackbar.LENGTH_INDEFINITE)
+//
+//                snackbar.setAction("OK", View.OnClickListener {
+//                    snackbar.dismiss()
+//                })
+//
+//                snackbar.show()
             }
 
             Navigation.findNavController(it!!).navigate(R.id.action_createNotesFragment_to_homeFragment)

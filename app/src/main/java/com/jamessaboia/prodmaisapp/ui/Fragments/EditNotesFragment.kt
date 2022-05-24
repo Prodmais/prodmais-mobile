@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
@@ -18,6 +19,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.ui.NavigationUI
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.button.MaterialButton
 import com.google.android.material.snackbar.Snackbar
 import com.jamessaboia.prodmaisapp.Constants.Constants
 import com.jamessaboia.prodmaisapp.Model.Login
@@ -161,13 +163,33 @@ class EditNotesFragment : Fragment(), FragmentManager.OnBackStackChangedListener
             } }
 
             if(status == 3 && status != statusCurrent){
-                val snackbar = Snackbar.make(it!!, Constants.listMessage.get(Random.nextInt(0, Constants.listMessage.size - 1)), Snackbar.LENGTH_INDEFINITE)
 
-                snackbar.setAction("OK", View.OnClickListener {
-                    snackbar.dismiss()
-                })
+                val view = View.inflate(this.requireContext(), R.layout.dialog_quotes, null)
 
-                snackbar.show()
+
+                val builder = AlertDialog.Builder(this.requireContext())
+                builder.setView(view)
+
+                val dialog = builder.create()
+                dialog.show()
+                dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+
+                val textMotivacional = view.findViewById<TextView>(R.id.tv_motivational)
+                textMotivacional.setText(Constants.listMessage.get(Random.nextInt(0, Constants.listMessage.size - 1)))
+
+                val buttonConfirm = view.findViewById<MaterialButton>(R.id.btn_confirm)
+                buttonConfirm.setOnClickListener {
+                    dialog.dismiss()
+                }
+
+//                val snackbar = Snackbar.make(it!!, Constants.listMessage.get(Random.nextInt(0, Constants.listMessage.size - 1)), Snackbar.LENGTH_INDEFINITE)
+//
+//                snackbar.setAction("OK", View.OnClickListener {
+//                    snackbar.dismiss()
+//                })
+//
+//                snackbar.show()
+
             } else{
                 Toast.makeText(requireContext(), "Tarefa Editada com Sucesso!", Toast.LENGTH_SHORT).show()
             }
