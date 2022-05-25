@@ -57,9 +57,14 @@ class CreateNotesFragment : Fragment(), AdapterView.OnItemSelectedListener {
 //            binding.pYellow.setImageResource(0)
 //        }
 
+//        val spinnerValues = resources.getStringArray(R.array.spinner_values)
+//        val arrayAdapter = ArrayAdapter(requireContext(), R.layout.spinner_items, spinnerValues)
+//        arrayAdapter.setDropDownViewResource(R.layout.spinner_items)
+//        binding.edtStatus.setAdapter(arrayAdapter)
+
         val adapter: ArrayAdapter<*> =
             ArrayAdapter.createFromResource(requireContext(), R.array.spinner_values, R.layout.spinner_items)
-        adapter.setDropDownViewResource(R.layout.spinner_items);
+        adapter.setDropDownViewResource(R.layout.spinner_items)
         binding.edtStatus.setAdapter(adapter)
 
         binding.edtStatus.onItemSelectedListener = this

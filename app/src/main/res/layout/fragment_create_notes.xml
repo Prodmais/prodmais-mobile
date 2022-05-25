@@ -60,7 +60,7 @@
         <EditText
             android:id="@+id/edtNotes"
             android:layout_width="match_parent"
-            android:layout_height="350dp"
+            android:layout_height="300dp"
             android:layout_marginTop="10dp"
             android:background="@drawable/edt_txt_shape"
             android:elevation="2dp"
@@ -70,19 +70,29 @@
             android:textColor="@color/colorSecodary"
             android:textColorHint="@color/colorSecodary" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Status da Tarefa:"
+            android:textStyle="bold"
+            android:textColor="@color/colorPrimaryDark"
+            android:layout_marginTop="10dp"/>
+
         <Spinner
             android:id="@+id/edtStatus"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/edt_txt_shape"
+            android:dropDownSelector="@drawable/ic_baseline_arrow_drop_down_24"
+            android:background="@drawable/spinner_shape"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
             android:padding="5dp"
+            android:popupBackground="@color/white"
             android:textColor="@color/colorSecodary"
             android:textColorHint="@color/colorSecodary"
             android:entries="@array/spinner_values" />
 
-<!--        <com.google.android.material.textfield.TextInputLayout-->
-<!--            android:id="@+id/SpinnerMenu"-->
+        <!--        <com.google.android.material.textfield.TextInputLayout-->
 <!--            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"-->
 <!--            android:layout_width="match_parent"-->
 <!--            android:layout_height="wrap_content"-->
@@ -96,6 +106,8 @@
 <!--                android:id="@+id/edtStatus"-->
 <!--                android:backgroundTint="@color/colorPrimary"-->
 <!--                android:background="@drawable/edt_txt_shape"-->
+<!--                android:paddingTop="16dp"-->
+<!--                android:paddingBottom="16dp"-->
 <!--                android:textColor="@color/white"-->
 <!--                android:textColorHint="@color/white"-->
 <!--                android:layout_width="match_parent"-->
